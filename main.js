@@ -4,6 +4,39 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+const hearts = document.querySelectorAll('.like-glyph');
+
+// Select the error modal and message container
+const errorModal = document.getElementById('modal');
+const errorMessage = document.getElementById('modal-message'); 
+
+errorModal.classList.add('hidden');
+
+hearts.forEach(heart => {
+  heart.addEventListener('click', () => {
+    mimicServerCall()
+      .then(() => {
+        if (heart.textContent === EMPTY_HEART) {
+          heart.textContent = FULL_HEART;
+          heart.classList.add('activated-heart');
+        } else {
+          heart.textContent = EMPTY_HEART;
+          heart.classList.remove('activated-heart');
+        }
+      })
+      .catch((error) => {
+        errorModal.classList.remove('hidden');
+        if (errorMessage) {
+          errorMessage.textContent = error;
+        }
+
+        setTimeout(() => {
+          errorModal.classList.add('hidden');
+        }, 3000);
+      });
+  });
+});
+
 
 
 
